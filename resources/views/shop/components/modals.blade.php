@@ -138,7 +138,7 @@
                             </div>
                             <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
                             <div class="mt-6">
-                                <button @click="checkoutOpen = true; cartOpen = false" class="flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-black hover:bg-gray-800 w-full">Checkout</button>
+                                <button @click="window.location.href='{{ route('shop.checkout') }}'" class="flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-black hover:bg-gray-800 w-full">Checkout</button>
                             </div>
                             <div class="mt-6 flex justify-center text-sm text-center text-gray-500">
                                 <p>or <button @click="cartOpen = false" class="text-gray-600 font-medium hover:text-gray-800">Continue Shopping<span aria-hidden="true"> &rarr;</span></button></p>

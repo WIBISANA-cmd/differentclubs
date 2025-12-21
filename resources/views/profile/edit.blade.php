@@ -110,6 +110,11 @@
                                 <input type="email" name="email" id="email" value="{{ old('email', auth()->user()->email) }}" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-black focus:ring-black sm:text-sm py-2 px-3 border">
                                 @error('email')<p class="text-xs text-red-600 mt-1">{{ $message }}</p>@enderror
                             </div>
+                            <div class="sm:col-span-2">
+                                <label for="full_address" class="block text-sm font-medium text-gray-700">Alamat lengkap</label>
+                                <textarea name="full_address" id="full_address" rows="3" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-black focus:ring-black sm:text-sm py-2 px-3 border" placeholder="Jalan, RT/RW, Kelurahan, Kecamatan, Kota/Kabupaten, Provinsi">{{ old('full_address', auth()->user()->full_address) }}</textarea>
+                                @error('full_address')<p class="text-xs text-red-600 mt-1">{{ $message }}</p>@enderror
+                            </div>
                         </div>
                         <div class="flex justify-end">
                             <button type="submit" class="inline-flex justify-center items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-lg text-white bg-gray-900 hover:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900">

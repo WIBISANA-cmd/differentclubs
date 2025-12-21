@@ -47,6 +47,12 @@
             @endif
         </div>
 
+        <div>
+            <x-input-label for="full_address" :value="__('Alamat lengkap')" />
+            <textarea id="full_address" name="full_address" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="{{ __('Jalan, RT/RW, Kelurahan, Kecamatan, Kota/Kabupaten, Provinsi') }}">{{ old('full_address', $user->full_address) }}</textarea>
+            <x-input-error class="mt-2" :messages="$errors->get('full_address')" />
+        </div>
+
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 

@@ -7,10 +7,12 @@ use App\Http\Controllers\Admin\ProductDiscountController;
 use App\Http\Controllers\Admin\DiscountController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProfilePhotoController;
+use App\Http\Controllers\Shop\CheckoutController;
 use App\Http\Controllers\Shop\HomeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('shop.home');
+Route::get('/checkout', [CheckoutController::class, 'show'])->name('shop.checkout');
 Route::view('/auth/monochrome', 'auth.monochrome')->name('auth.monochrome');
 
 Route::middleware(['auth', 'verified'])->group(function () {
