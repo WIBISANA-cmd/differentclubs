@@ -1,8 +1,8 @@
-    <section class="py-16 bg-gray-50" data-parallax data-parallax-speed="0.1">
+    <section class="py-16 bg-gray-50 reveal" data-parallax data-parallax-speed="0.1" data-animate>
         <div class="container mx-auto px-4">
             <h2 class="text-2xl font-serif font-bold mb-8 text-center">What Our Customers Say</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-white p-6 rounded-2xl shadow-sm">
+                <div class="bg-white p-6 rounded-2xl shadow-sm reveal" data-animate data-animate-delay="0.9s">
                     <div class="flex items-center mb-4">
                         <div class="bg-gray-200 rounded-full w-10 h-10"></div>
                         <div class="ml-3">
@@ -28,7 +28,7 @@
                     </div>
                     <p class="text-gray-600">"The quality of the fabric is exceptional. I've worn my Noir shirt multiple times and it still looks brand new. Worth every penny!"</p>
                 </div>
-                <div class="bg-white p-6 rounded-2xl shadow-sm">
+                <div class="bg-white p-6 rounded-2xl shadow-sm reveal" data-animate data-animate-delay="0.9s">
                     <div class="flex items-center mb-4">
                         <div class="bg-gray-200 rounded-full w-10 h-10"></div>
                         <div class="ml-3">
@@ -54,7 +54,7 @@
                     </div>
                     <p class="text-gray-600">"I love the minimalist design. The fit is perfect and the materials are so comfortable. Will definitely be ordering more pieces."</p>
                 </div>
-                <div class="bg-white p-6 rounded-2xl shadow-sm">
+                <div class="bg-white p-6 rounded-2xl shadow-sm reveal" data-animate data-animate-delay="0.9s">
                     <div class="flex items-center mb-4">
                         <div class="bg-gray-200 rounded-full w-10 h-10"></div>
                         <div class="ml-3">

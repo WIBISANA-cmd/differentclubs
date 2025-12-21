@@ -1,4 +1,4 @@
-    <footer class="bg-white border-t border-gray-200" data-parallax data-parallax-speed="0.06">
+    <footer class="bg-white border-t border-gray-200 reveal" data-parallax data-parallax-speed="0.06" data-animate>
         <div class="container mx-auto px-4 py-12">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div>

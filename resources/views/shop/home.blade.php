@@ -30,6 +30,9 @@
         @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
         /* Parallax helper */
         [data-parallax] { will-change: transform; }
+        /* Scroll reveal */
+        .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; transition-delay: var(--reveal-delay, 0s); }
+        .reveal.revealed { opacity: 1; transform: translateY(0); }
     </style>
 </head>
 <body class="font-sans text-gray-900 bg-white antialiased" x-data="app()" x-cloak>
@@ -62,6 +65,7 @@
                 selectedColor: 'Black',
                 quantity: 1,
                 quickViewProduct: {},
+                isNavStuck: false,
                 userMenuOpen: false,
                 user: window.__USER__ ? {
                     ...window.__USER__,
@@ -140,10 +144,13 @@
                 saveCart() { localStorage.setItem('noirCart', JSON.stringify(this.cart)); },
                 placeOrder() { this.showToast("Order placed successfully (simulated)"); this.cart = []; this.saveCart(); this.checkoutOpen = false; },
                 showToast(message) { this.toast.message = message; this.toast.show = true; setTimeout(() => { this.toast.show = false; }, 3000); },
+                handleScroll() { this.isNavStuck = window.scrollY > 30; },
 
                 init() {
                     const savedCart = localStorage.getItem('noirCart');
                     if (savedCart) this.cart = JSON.parse(savedCart);
+                    window.addEventListener('scroll', this.handleScroll);
+                    this.handleScroll();
                 },
             }));
         });
@@ -152,8 +159,26 @@
     <script>
         // Simple parallax on scroll
         const parallaxEls = [];
+        // Scroll reveal on intersection
+        const animateEls = [];
         document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('[data-parallax]').forEach(el => parallaxEls.push(el));
+            document.querySelectorAll('[data-animate]').forEach(el => {
+                const delay = el.dataset.animateDelay;
+                if (delay) el.style.setProperty('--reveal-delay', delay);
+                animateEls.push(el);
+            });
+
+            const observer = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('revealed');
+                        obs.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15 });
+
+            animateEls.forEach(el => observer.observe(el));
         });
         window.addEventListener('scroll', () => {
             const scrolled = window.pageYOffset;

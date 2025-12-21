@@ -1,8 +1,5 @@
-<section class="relative w-full overflow-hidden bg-black">
-    <div class="relative w-full">
-        <img src="{{ asset('img/hero.png') }}" alt="differentclubs hero" class="w-full h-auto">
-        <div class="absolute inset-0 bg-black/35 pointer-events-none"></div>
-    </div>
+<section class="relative w-full h-full overflow-hidden bg-cover bg-no-repeat bg-fixed min-h-[100vh] reveal" data-animate style="background-image: url('{{ asset('img/hero.png') }}');">
+    <div class="absolute inset-0 bg-black/35 pointer-events-none"></div>
     <div class="absolute inset-0 flex items-start justify-center text-center">
         <div class="container mx-auto px-4 pt-12 md:pt-20 max-w-2xl text-white space-y-6 mt-[25vh]">
             <h1 class="text-4xl md:text-5xl lg:text-6xl font-serif font-bold">Timeless Elegance</h1>

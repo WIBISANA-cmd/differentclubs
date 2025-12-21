@@ -1,4 +1,4 @@
-    <section id="shop" class="py-16 bg-gray-50" data-parallax data-parallax-speed="0.1">
+    <section id="shop" class="py-16 bg-gray-50 reveal" data-parallax data-parallax-speed="0.1" data-animate>
         <div class="container mx-auto px-4">
             <div class="flex flex-col md:flex-row justify-between items-center mb-8">
                 <h2 class="text-2xl font-serif font-bold">Featured Products</h2>
@@ -20,13 +20,13 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 <template x-for="product in filteredProducts" :key="product.id">
-                    <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition border border-gray-100 product-card">
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition border border-gray-100 product-card reveal" data-animate>
                         <div class="relative">
                             <div class="bg-gradient-to-br from-gray-200 to-gray-300 h-64 w-full"></div>
                             <div class="absolute top-3 left-3 flex space-x-2">
                                 <span x-show="product.isNew" class="bg-white text-xs px-2 py-1 rounded-full">New</span>
                                 <span x-show="product.isBestSeller" class="bg-black text-white text-xs px-2 py-1 rounded-full">Best Seller</span>
-                                <span x-show="product.discountPercent" class="bg-gray-800 text-white text-xs px-2 py-1 rounded-full" x-text="'-' + product.discountPercent + '%'"></span>
+                                <span x-show="product.discountPercent" class="bg-gray-800 text-white text-xs px-2 py-1 rounded-full" x-text="'diskon ' + product.discountPercent + '%'"></span>
                             </div>
                             <div class="quick-actions absolute bottom-3 left-0 right-0 flex justify-center space-x-2">
                                 <button x-on:click="openQuickView(product)" class="bg-white p-2 rounded-full shadow hover:bg-gray-100 transition">

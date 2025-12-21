@@ -1,4 +1,4 @@
-    <section x-show="checkoutOpen" class="py-16 bg-white" data-parallax data-parallax-speed="0.08">
+    <section x-show="checkoutOpen" class="py-16 bg-white reveal" data-parallax data-parallax-speed="0.08" data-animate>
         <div class="container mx-auto px-4 max-w-4xl">
             <h2 class="text-2xl font-serif font-bold mb-8">Checkout</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -98,7 +98,7 @@
                 </div>
                 <div>
                     <h3 class="text-lg font-medium mb-4">Order Summary</h3>
-                    <div class="bg-gray-50 rounded-lg p-6">
+                    <div class="bg-gray-50 rounded-lg p-6 reveal" data-animate data-animate-delay="0.9s">
                         <div class="flow-root">
                             <ul class="-my-4 divide-y divide-gray-200">
                                 <template x-for="item in cart" :key="item.id + item.size + item.color">
