@@ -42,8 +42,16 @@
                 </nav>
                 <h1 class="text-2xl font-bold tracking-tight text-gray-900">Profile Settings</h1>
             </div>
-            <div class="text-sm text-gray-500">
-                {{ auth()->user()->email }}
+            <div class="flex items-center gap-3">
+                <a href="{{ route('shop.home') }}" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-gray-300 text-sm text-gray-700 hover:bg-gray-50">
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                    Kembali
+                </a>
+                <div class="text-sm text-gray-500">
+                    {{ auth()->user()->email }}
+                </div>
             </div>
         </div>
 
@@ -114,6 +122,17 @@
                                 <label for="full_address" class="block text-sm font-medium text-gray-700">Alamat lengkap</label>
                                 <textarea name="full_address" id="full_address" rows="3" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-black focus:ring-black sm:text-sm py-2 px-3 border" placeholder="Jalan, RT/RW, Kelurahan, Kecamatan, Kota/Kabupaten, Provinsi">{{ old('full_address', auth()->user()->full_address) }}</textarea>
                                 @error('full_address')<p class="text-xs text-red-600 mt-1">{{ $message }}</p>@enderror
+                            </div>
+                            <div class="sm:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700">Pilih titik lokasi</label>
+                                <div class="mt-2 flex flex-wrap items-center gap-3">
+                                    <button type="button" id="useMyLocation" class="inline-flex items-center px-3 py-1.5 rounded-lg border border-gray-300 text-sm text-gray-700 hover:bg-gray-50">
+                                        Gunakan lokasi saya
+                                    </button>
+                                    <p id="mapStatus" class="text-xs text-gray-500"></p>
+                                </div>
+                                <div id="profileMap" class="mt-3 h-72 w-full rounded-xl border border-gray-200"></div>
+                                <p class="mt-2 text-xs text-gray-500">Klik peta untuk memilih titik, alamat akan terisi otomatis.</p>
                             </div>
                         </div>
                         <div class="flex justify-end">
@@ -268,4 +287,120 @@
             @endif
         });
     </script>
+    <script>
+        let profileMap;
+        let profileMarker;
+        let profileGeocoder;
+
+        function setMapStatus(message, isError = false) {
+            const statusEl = document.getElementById('mapStatus');
+            if (!statusEl) return;
+            statusEl.textContent = message;
+            statusEl.classList.toggle('text-red-600', isError);
+            statusEl.classList.toggle('text-gray-500', !isError);
+        }
+
+        function reverseGeocode(latLng) {
+            if (!profileGeocoder) return;
+            profileGeocoder.geocode({ location: latLng }, (results, status) => {
+                if (status === 'OK' && results[0]) {
+                    const addressInput = document.getElementById('full_address');
+                    if (addressInput) addressInput.value = results[0].formatted_address;
+                    setMapStatus('Alamat diperbarui dari titik peta.');
+                } else {
+                    setMapStatus('Alamat tidak ditemukan dari titik ini.', true);
+                }
+            });
+        }
+
+        function setMarker(latLng, shouldFill = true) {
+            if (!profileMap) return;
+            if (!profileMarker) {
+                profileMarker = new google.maps.Marker({
+                    position: latLng,
+                    map: profileMap,
+                    draggable: true
+                });
+                profileMarker.addListener('dragend', () => {
+                    const pos = profileMarker.getPosition();
+                    if (pos) reverseGeocode(pos);
+                });
+            } else {
+                profileMarker.setPosition(latLng);
+            }
+            profileMap.panTo(latLng);
+            if (shouldFill) reverseGeocode(latLng);
+        }
+
+        function requestDeviceLocation() {
+            if (!navigator.geolocation) {
+                setMapStatus('Geolokasi tidak didukung di perangkat ini.', true);
+                return;
+            }
+            setMapStatus('Mendeteksi lokasi perangkat...');
+            navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    setMapStatus('');
+                    setMarker({ lat: pos.coords.latitude, lng: pos.coords.longitude });
+                },
+                () => {
+                    setMapStatus('Lokasi perangkat tidak tersedia. Pilih titik manual di peta.', true);
+                },
+                { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+            );
+        }
+
+        function geocodeAddress(address) {
+            if (!profileGeocoder) return;
+            profileGeocoder.geocode({ address }, (results, status) => {
+                if (status === 'OK' && results[0]) {
+                    setMarker(results[0].geometry.location, false);
+                } else {
+                    requestDeviceLocation();
+                }
+            });
+        }
+
+        window.initProfileMap = function initProfileMap() {
+            const mapEl = document.getElementById('profileMap');
+            if (!mapEl) return;
+            profileGeocoder = new google.maps.Geocoder();
+            const defaultCenter = { lat: -6.200000, lng: 106.816666 };
+            profileMap = new google.maps.Map(mapEl, {
+                center: defaultCenter,
+                zoom: 14,
+                streetViewControl: false,
+                mapTypeControl: false
+            });
+
+            profileMap.addListener('click', (event) => {
+                if (!event?.latLng) return;
+                setMarker(event.latLng, true);
+            });
+
+            const addressInput = document.getElementById('full_address');
+            const addressValue = addressInput?.value?.trim();
+            if (addressValue) geocodeAddress(addressValue);
+            else requestDeviceLocation();
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const locationBtn = document.getElementById('useMyLocation');
+            if (locationBtn) {
+                locationBtn.addEventListener('click', () => {
+                    requestDeviceLocation();
+                });
+            }
+        });
+    </script>
+    @php($gmapsKey = config('services.google_maps.key'))
+    @if ($gmapsKey)
+        <script src="https://maps.googleapis.com/maps/api/js?key={{ $gmapsKey }}&libraries=places&callback=initProfileMap" async defer></script>
+    @else
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                setMapStatus('Google Maps API key belum disetel.', true);
+            });
+        </script>
+    @endif
 </html>

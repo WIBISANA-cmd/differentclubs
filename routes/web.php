@@ -12,6 +12,7 @@ use App\Http\Controllers\Shop\HomeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('shop.home');
+Route::get('/shop', [HomeController::class, 'shop'])->name('shop.index');
 Route::get('/checkout', [CheckoutController::class, 'show'])->name('shop.checkout');
 Route::view('/auth/monochrome', 'auth.monochrome')->name('auth.monochrome');
 

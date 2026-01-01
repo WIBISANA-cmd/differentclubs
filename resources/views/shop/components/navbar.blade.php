@@ -2,7 +2,7 @@
         differentclubs • Gratis pengiriman dunia untuk order di atas Rp 1.500.000 • Gunakan kode: DC10
     </div>
 
-    <header class="sticky top-0 z-50 reveal transition duration-300" data-parallax data-parallax-speed="0.15" data-animate
+    <header class="sticky top-0 z-50 reveal transition duration-300" data-animate
         :class="isNavStuck ? 'bg-white/85 backdrop-blur-xl border-b border-white/60 shadow-lg shadow-black/10' : 'bg-transparent'">
         <div class="container mx-auto px-4 py-4">
             <div class="flex items-center justify-between rounded-full bg-white/70 border border-white/50 backdrop-blur-xl shadow-lg shadow-black/5 px-4 md:px-6 py-3 transition duration-300"
@@ -10,7 +10,7 @@
                 <a href="#" class="text-2xl font-serif font-bold">differentclubs</a>
 
                 <nav class="hidden md:flex space-x-8">
-                    <a href="#shop" class="hover:text-gray-600 transition">Shop</a>
+                    <a href="{{ route('shop.index') }}" class="hover:text-gray-600 transition">Shop</a>
                     <a href="#new" class="hover:text-gray-600 transition">New</a>
                     <a href="#collections" class="hover:text-gray-600 transition">Collections</a>
                     <a href="#about" class="hover:text-gray-600 transition">About</a>

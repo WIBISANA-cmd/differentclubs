@@ -22,7 +22,11 @@
                 <template x-for="product in filteredProducts" :key="product.id">
                     <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition border border-gray-100 product-card reveal" data-animate>
                         <div class="relative">
-                            <div class="bg-gradient-to-br from-gray-200 to-gray-300 h-64 w-full"></div>
+                            <div class="bg-gradient-to-br from-gray-200 to-gray-300 h-64 w-full">
+                                <template x-if="product.image">
+                                    <img :src="product.image" :alt="product.name" class="h-full w-full object-cover" loading="lazy">
+                                </template>
+                            </div>
                             <div class="absolute top-3 left-3 flex space-x-2">
                                 <span x-show="product.isNew" class="bg-white text-xs px-2 py-1 rounded-full">New</span>
                                 <span x-show="product.isBestSeller" class="bg-black text-white text-xs px-2 py-1 rounded-full">Best Seller</span>
